@@ -45,11 +45,104 @@
         max-width: 680px;
     }
 
-    .game-card {
+    .game-card,
+    .settings,
+    .reference-section,
+    .missed-section {
         background: white;
         border-radius: 22px;
         padding: 30px;
         box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    }
+
+    .settings,
+    .reference-section,
+    .missed-section {
+        margin-top: 20px;
+    }
+
+    /* ==========================
+       COURSE TOGGLE
+       ========================== */
+
+    .course-selector {
+        text-align: center;
+        margin-bottom: 25px;
+        background: #f5f7fb;
+        border-radius: 16px;
+        padding: 18px;
+    }
+
+    .course-selector-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #6b7280;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .course-toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+    }
+
+    .course-name {
+        font-weight: bold;
+        font-size: 1rem;
+        color: #667085;
+        transition: 0.2s;
+    }
+
+    .course-name.active {
+        color: #5746c7;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 64px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #5746c7;
+        transition: 0.25s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.25s;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.20);
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(30px);
+    }
+
+    .course-range {
+        margin-top: 11px;
+        color: #667085;
+        font-size: 0.88rem;
     }
 
     /* ==========================
@@ -85,7 +178,7 @@
     }
 
     /* ==========================
-       QUESTION TYPE
+       QUESTION
        ========================== */
 
     .question-type {
@@ -248,15 +341,9 @@
        SETTINGS
        ========================== */
 
-    .settings {
-        background: white;
-        margin-top: 20px;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    }
-
-    .settings h2 {
+    .settings h2,
+    .reference-section h2,
+    .missed-section h2 {
         text-align: center;
         color: #243b64;
         margin-top: 0;
@@ -281,23 +368,12 @@
     }
 
     /* ==========================
-       REFERENCE TABLE
+       REFERENCE
        ========================== */
 
     .reference-section {
         display: none;
-        background: white;
-        margin-top: 20px;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
         overflow-x: auto;
-    }
-
-    .reference-section h2 {
-        text-align: center;
-        color: #243b64;
-        margin-top: 0;
     }
 
     .reference-table {
@@ -321,19 +397,12 @@
         background: #fafbff;
     }
 
+    /* ==========================
+       MISSED
+       ========================== */
+
     .missed-section {
         display: none;
-        background: white;
-        margin-top: 20px;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    }
-
-    .missed-section h2 {
-        margin-top: 0;
-        text-align: center;
-        color: #243b64;
     }
 
     .missed-list {
@@ -359,8 +428,10 @@
     }
 
     @media (max-width: 650px) {
-
-        .game-card {
+        .game-card,
+        .settings,
+        .reference-section,
+        .missed-section {
             padding: 20px;
         }
 
@@ -383,22 +454,67 @@
 </style>
 </head>
 
-
 <body>
 
 <div class="container">
 
     <div class="header">
         <h1>SI Prefix Challenge</h1>
-
         <p>
             Practice converting between SI prefixes, scientific notation,
             and standard decimal notation.
         </p>
     </div>
 
-
     <div class="game-card">
+
+        <!-- COURSE MODE -->
+
+        <div class="course-selector">
+
+            <div class="course-selector-title">
+                Select Course
+            </div>
+
+            <div class="course-toggle-row">
+
+                <span
+                    class="course-name"
+                    id="chem3Label"
+                >
+                    CHEM 3A
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="courseToggle"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+                <span
+                    class="course-name active"
+                    id="chem1Label"
+                >
+                    CHEM 1A
+                </span>
+
+            </div>
+
+            <div
+                class="course-range"
+                id="courseRange"
+            >
+                CHEM 1A Range: tera (10¹²) through femto (10⁻¹⁵)
+            </div>
+
+        </div>
+
 
         <!-- SCOREBOARD -->
 
@@ -429,26 +545,41 @@
 
         <!-- QUESTION -->
 
-        <div class="question-type" id="questionType">
+        <div
+            class="question-type"
+            id="questionType"
+        >
             Prefix → Number
         </div>
 
-        <div class="question-label" id="questionLabel">
-            What numerical value corresponds to:
+        <div
+            class="question-label"
+            id="questionLabel"
+        >
+            What numerical value corresponds to the SI prefix:
         </div>
 
-        <div class="question-display" id="questionDisplay">
+        <div
+            class="question-display"
+            id="questionDisplay"
+        >
             kilo
         </div>
 
-        <div class="question-subtitle" id="questionSubtitle">
+        <div
+            class="question-subtitle"
+            id="questionSubtitle"
+        >
             Symbol: k
         </div>
 
 
-        <!-- ANSWER -->
+        <!-- INPUT -->
 
-        <div class="instruction" id="instruction">
+        <div
+            class="instruction"
+            id="instruction"
+        >
             Enter the numerical value:
         </div>
 
@@ -462,7 +593,10 @@
             spellcheck="false"
         >
 
-        <div class="example-text" id="exampleText">
+        <div
+            class="example-text"
+            id="exampleText"
+        >
             Example: 10^3 or 1000
         </div>
 
@@ -489,10 +623,13 @@
         </div>
 
 
-        <div class="feedback" id="feedback"></div>
+        <div
+            class="feedback"
+            id="feedback"
+        ></div>
 
 
-        <!-- SECONDARY CONTROLS -->
+        <!-- SECONDARY -->
 
         <div class="secondary-controls">
 
@@ -517,7 +654,7 @@
     </div>
 
 
-    <!-- QUESTION SETTINGS -->
+    <!-- QUESTION TYPES -->
 
     <div class="settings">
 
@@ -557,26 +694,26 @@
     </div>
 
 
-    <!-- REFERENCE TABLE -->
+    <!-- REFERENCE -->
 
     <div
         class="reference-section"
         id="referenceSection"
     >
 
-        <h2>SI Prefix Reference</h2>
+        <h2 id="referenceTitle">
+            SI Prefix Reference
+        </h2>
 
         <table class="reference-table">
 
             <thead>
-
                 <tr>
                     <th>Prefix</th>
                     <th>Symbol</th>
                     <th>Scientific Notation</th>
                     <th>Standard Notation</th>
                 </tr>
-
             </thead>
 
             <tbody id="referenceBody"></tbody>
@@ -586,7 +723,7 @@
     </div>
 
 
-    <!-- MISSED PREFIXES -->
+    <!-- MISSED -->
 
     <div
         class="missed-section"
@@ -613,43 +750,63 @@
 <script>
 
 /* ==========================================================
-   SI PREFIX DATA
+   COMPLETE PREFIX DATABASE
    ========================================================== */
 
-const prefixes = [
+const allPrefixes = [
 
-    { name: "quetta", symbol: "Q", exponent: 30 },
-    { name: "ronna", symbol: "R", exponent: 27 },
-    { name: "yotta", symbol: "Y", exponent: 24 },
-    { name: "zetta", symbol: "Z", exponent: 21 },
-    { name: "exa", symbol: "E", exponent: 18 },
-    { name: "peta", symbol: "P", exponent: 15 },
-    { name: "tera", symbol: "T", exponent: 12 },
-    { name: "giga", symbol: "G", exponent: 9 },
-    { name: "mega", symbol: "M", exponent: 6 },
-    { name: "kilo", symbol: "k", exponent: 3 },
+    { name: "tera",  symbol: "T", exponent: 12 },
+    { name: "giga",  symbol: "G", exponent: 9 },
+    { name: "mega",  symbol: "M", exponent: 6 },
+    { name: "kilo",  symbol: "k", exponent: 3 },
     { name: "hecto", symbol: "h", exponent: 2 },
-    { name: "deca", symbol: "da", exponent: 1 },
+    { name: "deca",  symbol: "da", exponent: 1 },
 
-    { name: "deci", symbol: "d", exponent: -1 },
+    { name: "deci",  symbol: "d", exponent: -1 },
     { name: "centi", symbol: "c", exponent: -2 },
     { name: "milli", symbol: "m", exponent: -3 },
     { name: "micro", symbol: "µ", exponent: -6 },
-    { name: "nano", symbol: "n", exponent: -9 },
-    { name: "pico", symbol: "p", exponent: -12 },
-    { name: "femto", symbol: "f", exponent: -15 },
-    { name: "atto", symbol: "a", exponent: -18 },
-    { name: "zepto", symbol: "z", exponent: -21 },
-    { name: "yocto", symbol: "y", exponent: -24 },
-    { name: "ronto", symbol: "r", exponent: -27 },
-    { name: "quecto", symbol: "q", exponent: -30 }
+    { name: "nano",  symbol: "n", exponent: -9 },
+    { name: "pico",  symbol: "p", exponent: -12 },
+    { name: "femto", symbol: "f", exponent: -15 }
 
 ];
 
 
 /* ==========================================================
+   COURSE SETTINGS
+   ========================================================== */
+
+/*
+   CHEM 1A
+   tera → femto
+
+   CHEM 3A
+   tera → nano
+*/
+
+const courseSettings = {
+
+    CHEM1A: {
+        name: "CHEM 1A",
+        maxExponent: 12,
+        minExponent: -15
+    },
+
+    CHEM3A: {
+        name: "CHEM 3A",
+        maxExponent: 12,
+        minExponent: -9
+    }
+
+};
+
+
+/* ==========================================================
    GAME VARIABLES
    ========================================================== */
+
+let currentCourse = "CHEM1A";
 
 let currentPrefix = null;
 let currentQuestionType = null;
@@ -667,13 +824,35 @@ let missedPrefixes = {};
 
 
 /* ==========================================================
+   GET ACTIVE PREFIXES
+   ========================================================== */
+
+function getActivePrefixes() {
+
+    const settings =
+        courseSettings[currentCourse];
+
+    return allPrefixes.filter(prefix =>
+
+        prefix.exponent <=
+        settings.maxExponent
+
+        &&
+
+        prefix.exponent >=
+        settings.minExponent
+
+    );
+}
+
+
+/* ==========================================================
    SUPERSCRIPT
    ========================================================== */
 
 function exponentToSuperscript(number) {
 
     const map = {
-
         "-": "⁻",
         "0": "⁰",
         "1": "¹",
@@ -685,7 +864,6 @@ function exponentToSuperscript(number) {
         "7": "⁷",
         "8": "⁸",
         "9": "⁹"
-
     };
 
     return String(number)
@@ -696,21 +874,24 @@ function exponentToSuperscript(number) {
 
 
 /* ==========================================================
-   EXACT STANDARD NOTATION
+   STANDARD NOTATION
    ========================================================== */
 
 function exponentToStandard(exponent) {
 
     if (exponent > 0) {
 
-        return "1" + "0".repeat(exponent);
+        return "1" +
+            "0".repeat(exponent);
 
     }
 
     if (exponent < 0) {
 
         return "0." +
-            "0".repeat(Math.abs(exponent) - 1) +
+            "0".repeat(
+                Math.abs(exponent) - 1
+            ) +
             "1";
 
     }
@@ -720,15 +901,13 @@ function exponentToStandard(exponent) {
 
 
 /* ==========================================================
-   FORMAT LARGE NUMBERS WITH COMMAS
+   COMMAS
    ========================================================== */
 
 function addCommas(numberString) {
 
     if (numberString.includes(".")) {
-
         return numberString;
-
     }
 
     return numberString.replace(
@@ -739,7 +918,116 @@ function addCommas(numberString) {
 
 
 /* ==========================================================
-   GET ENABLED QUESTION TYPES
+   COURSE TOGGLE
+   ========================================================== */
+
+function updateCourse() {
+
+    const toggle =
+        document.getElementById(
+            "courseToggle"
+        );
+
+    if (toggle.checked) {
+
+        currentCourse = "CHEM1A";
+
+    }
+
+    else {
+
+        currentCourse = "CHEM3A";
+
+    }
+
+
+    updateCourseDisplay();
+
+    /*
+       Clear score when switching courses so
+       results don't mix between course modes.
+    */
+
+    correct = 0;
+    attempts = 0;
+    streak = 0;
+
+    missedPrefixes = {};
+
+    previousPrefixIndex = -1;
+    previousQuestionType = "";
+
+    updateStats();
+    updateMissedList();
+    buildReferenceTable();
+
+    newQuestion();
+}
+
+
+/* ==========================================================
+   COURSE DISPLAY
+   ========================================================== */
+
+function updateCourseDisplay() {
+
+    const chem1Label =
+        document.getElementById(
+            "chem1Label"
+        );
+
+    const chem3Label =
+        document.getElementById(
+            "chem3Label"
+        );
+
+    const courseRange =
+        document.getElementById(
+            "courseRange"
+        );
+
+
+    if (
+        currentCourse === "CHEM1A"
+    ) {
+
+        chem1Label.classList.add(
+            "active"
+        );
+
+        chem3Label.classList.remove(
+            "active"
+        );
+
+        courseRange.innerHTML =
+            "CHEM 1A Range: " +
+            "<strong>tera (10¹²)</strong> through " +
+            "<strong>femto (10⁻¹⁵)</strong>";
+
+    }
+
+    else {
+
+        chem3Label.classList.add(
+            "active"
+        );
+
+        chem1Label.classList.remove(
+            "active"
+        );
+
+        courseRange.innerHTML =
+            "CHEM 3A Range: " +
+            "<strong>tera (10¹²)</strong> through " +
+            "<strong>nano (10⁻⁹)</strong>";
+
+    }
+
+}
+
+
+/* ==========================================================
+   ENABLED QUESTION TYPES
    ========================================================== */
 
 function getEnabledQuestionTypes() {
@@ -747,33 +1035,52 @@ function getEnabledQuestionTypes() {
     let types = [];
 
     if (
-        document.getElementById("typePrefix").checked
+        document.getElementById(
+            "typePrefix"
+        ).checked
     ) {
-        types.push("prefixToNumber");
+
+        types.push(
+            "prefixToNumber"
+        );
+
     }
 
     if (
-        document.getElementById("typeScientific").checked
+        document.getElementById(
+            "typeScientific"
+        ).checked
     ) {
-        types.push("scientificToPrefix");
+
+        types.push(
+            "scientificToPrefix"
+        );
+
     }
 
     if (
-        document.getElementById("typeStandard").checked
+        document.getElementById(
+            "typeStandard"
+        ).checked
     ) {
-        types.push("standardToPrefix");
+
+        types.push(
+            "standardToPrefix"
+        );
+
     }
 
-    /*
-       Prevent a situation where students
-       accidentally turn everything off.
-    */
 
     if (types.length === 0) {
 
-        document.getElementById("typePrefix").checked = true;
+        document.getElementById(
+            "typePrefix"
+        ).checked = true;
 
-        types.push("prefixToNumber");
+        types.push(
+            "prefixToNumber"
+        );
+
     }
 
     return types;
@@ -781,20 +1088,27 @@ function getEnabledQuestionTypes() {
 
 
 /* ==========================================================
-   GENERATE QUESTION
+   NEW QUESTION
    ========================================================== */
 
 function newQuestion() {
 
-    const enabledTypes = getEnabledQuestionTypes();
+    const activePrefixes =
+        getActivePrefixes();
+
+    const enabledTypes =
+        getEnabledQuestionTypes();
+
+
+    /*
+       Question type
+    */
 
     let type;
 
-    /*
-       Try not to repeat question direction.
-    */
-
-    if (enabledTypes.length > 1) {
+    if (
+        enabledTypes.length > 1
+    ) {
 
         do {
 
@@ -807,23 +1121,31 @@ function newQuestion() {
                 ];
 
         }
+
         while (
-            type === previousQuestionType
+            type ===
+            previousQuestionType
         );
-
-    } else {
-
-        type = enabledTypes[0];
 
     }
 
-    previousQuestionType = type;
+    else {
 
-    currentQuestionType = type;
+        type =
+            enabledTypes[0];
+
+    }
+
+
+    previousQuestionType =
+        type;
+
+    currentQuestionType =
+        type;
 
 
     /*
-       Choose prefix and prevent immediate repeats.
+       Prefix
     */
 
     let prefixIndex;
@@ -833,48 +1155,72 @@ function newQuestion() {
         prefixIndex =
             Math.floor(
                 Math.random() *
-                prefixes.length
+                activePrefixes.length
             );
 
     }
+
     while (
-        prefixIndex === previousPrefixIndex &&
-        prefixes.length > 1
+        prefixIndex ===
+        previousPrefixIndex
+
+        &&
+
+        activePrefixes.length > 1
     );
 
-    previousPrefixIndex = prefixIndex;
 
-    currentPrefix = prefixes[prefixIndex];
+    previousPrefixIndex =
+        prefixIndex;
+
+    currentPrefix =
+        activePrefixes[
+            prefixIndex
+        ];
 
 
     /*
-       Reset question
+       Reset display
     */
 
     questionAnswered = false;
 
-    document.getElementById("answer").value = "";
+    document.getElementById(
+        "answer"
+    ).value = "";
 
-    document.getElementById("feedback").className =
+    document.getElementById(
+        "feedback"
+    ).className =
         "feedback";
 
-    document.getElementById("feedback").innerHTML = "";
+    document.getElementById(
+        "feedback"
+    ).innerHTML = "";
 
-    document.getElementById("checkButton").textContent =
+    document.getElementById(
+        "checkButton"
+    ).textContent =
         "Check Answer";
 
 
     /*
-       Build the selected question.
+       Display question
     */
 
-    if (type === "prefixToNumber") {
+    if (
+        type ===
+        "prefixToNumber"
+    ) {
 
         showPrefixToNumber();
 
     }
 
-    else if (type === "scientificToPrefix") {
+    else if (
+        type ===
+        "scientificToPrefix"
+    ) {
 
         showScientificToPrefix();
 
@@ -887,7 +1233,9 @@ function newQuestion() {
     }
 
 
-    document.getElementById("answer").focus();
+    document.getElementById(
+        "answer"
+    ).focus();
 }
 
 
@@ -897,65 +1245,93 @@ function newQuestion() {
 
 function showPrefixToNumber() {
 
-    document.getElementById("questionType").textContent =
+    document.getElementById(
+        "questionType"
+    ).textContent =
         "Prefix → Number";
 
-    document.getElementById("questionLabel").textContent =
+    document.getElementById(
+        "questionLabel"
+    ).textContent =
         "What numerical value corresponds to the SI prefix:";
 
-    document.getElementById("questionDisplay").textContent =
+    document.getElementById(
+        "questionDisplay"
+    ).textContent =
         currentPrefix.name;
 
-    document.getElementById("questionSubtitle").innerHTML =
+    document.getElementById(
+        "questionSubtitle"
+    ).innerHTML =
         "Symbol: <strong>" +
         currentPrefix.symbol +
         "</strong>";
 
-    document.getElementById("instruction").textContent =
+    document.getElementById(
+        "instruction"
+    ).textContent =
         "Enter the numerical value:";
 
-    document.getElementById("answer").placeholder =
+    document.getElementById(
+        "answer"
+    ).placeholder =
         "Example: 10^-3 or 0.001";
 
-    document.getElementById("exampleText").textContent =
+    document.getElementById(
+        "exampleText"
+    ).textContent =
         "Scientific notation or standard notation are both accepted.";
 }
 
 
 /* ==========================================================
-   SCIENTIFIC NOTATION → PREFIX
+   SCIENTIFIC → PREFIX
    ========================================================== */
 
 function showScientificToPrefix() {
 
-    document.getElementById("questionType").textContent =
+    document.getElementById(
+        "questionType"
+    ).textContent =
         "Scientific Notation → Prefix";
 
-    document.getElementById("questionLabel").textContent =
+    document.getElementById(
+        "questionLabel"
+    ).textContent =
         "Which SI prefix corresponds to:";
 
-    document.getElementById("questionDisplay").innerHTML =
+    document.getElementById(
+        "questionDisplay"
+    ).innerHTML =
         "10" +
         exponentToSuperscript(
             currentPrefix.exponent
         );
 
-    document.getElementById("questionSubtitle").textContent =
+    document.getElementById(
+        "questionSubtitle"
+    ).textContent =
         "";
 
-    document.getElementById("instruction").textContent =
+    document.getElementById(
+        "instruction"
+    ).textContent =
         "Enter the SI prefix name or symbol:";
 
-    document.getElementById("answer").placeholder =
+    document.getElementById(
+        "answer"
+    ).placeholder =
         "Example: milli or m";
 
-    document.getElementById("exampleText").textContent =
-        "Either the full prefix name or correct SI symbol is accepted.";
+    document.getElementById(
+        "exampleText"
+    ).textContent =
+        "Prefix names are not case-sensitive. SI symbols are case-sensitive.";
 }
 
 
 /* ==========================================================
-   STANDARD NOTATION → PREFIX
+   STANDARD → PREFIX
    ========================================================== */
 
 function showStandardToPrefix() {
@@ -965,31 +1341,45 @@ function showStandardToPrefix() {
             currentPrefix.exponent
         );
 
-    document.getElementById("questionType").textContent =
+    document.getElementById(
+        "questionType"
+    ).textContent =
         "Standard Notation → Prefix";
 
-    document.getElementById("questionLabel").textContent =
+    document.getElementById(
+        "questionLabel"
+    ).textContent =
         "Which SI prefix corresponds to:";
 
-    document.getElementById("questionDisplay").textContent =
+    document.getElementById(
+        "questionDisplay"
+    ).textContent =
         addCommas(standard);
 
-    document.getElementById("questionSubtitle").textContent =
+    document.getElementById(
+        "questionSubtitle"
+    ).textContent =
         "";
 
-    document.getElementById("instruction").textContent =
+    document.getElementById(
+        "instruction"
+    ).textContent =
         "Enter the SI prefix name or symbol:";
 
-    document.getElementById("answer").placeholder =
+    document.getElementById(
+        "answer"
+    ).placeholder =
         "Example: micro or µ";
 
-    document.getElementById("exampleText").textContent =
+    document.getElementById(
+        "exampleText"
+    ).textContent =
         "Either the full prefix name or correct SI symbol is accepted.";
 }
 
 
 /* ==========================================================
-   NORMALIZE NUMERICAL ANSWER
+   NORMALIZE NUMBER
    ========================================================== */
 
 function normalizeNumberAnswer(input) {
@@ -998,20 +1388,31 @@ function normalizeNumberAnswer(input) {
         input.trim();
 
     answer =
-        answer.replace(/\s+/g, "");
+        answer.replace(
+            /\s+/g,
+            ""
+        );
 
     answer =
-        answer.replace(/,/g, "");
+        answer.replace(
+            /,/g,
+            ""
+        );
 
     answer =
-        answer.replace(/×/g, "x");
+        answer.replace(
+            /×/g,
+            "x"
+        );
 
     answer =
-        answer.replace(/\*/g, "x");
+        answer.replace(
+            /\*/g,
+            "x"
+        );
 
 
     const superscriptMap = {
-
         "⁰": "0",
         "¹": "1",
         "²": "2",
@@ -1024,7 +1425,6 @@ function normalizeNumberAnswer(input) {
         "⁹": "9",
         "⁻": "-",
         "⁺": "+"
-
     };
 
 
@@ -1032,7 +1432,9 @@ function normalizeNumberAnswer(input) {
         answer.replace(
             /[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]/g,
             character =>
-                superscriptMap[character]
+                superscriptMap[
+                    character
+                ]
         );
 
 
@@ -1041,18 +1443,18 @@ function normalizeNumberAnswer(input) {
 
 
 /* ==========================================================
-   INTERPRET NUMERICAL ANSWER
+   INTERPRET NUMBER
    ========================================================== */
 
 function interpretNumberAnswer(input) {
 
     let answer =
-        normalizeNumberAnswer(input);
+        normalizeNumberAnswer(
+            input
+        );
 
 
     /*
-       Accept:
-
        10^3
        10^-3
        10³
@@ -1073,8 +1475,6 @@ function interpretNumberAnswer(input) {
 
 
     /*
-       Accept:
-
        1e3
        1e-3
     */
@@ -1094,8 +1494,6 @@ function interpretNumberAnswer(input) {
 
 
     /*
-       Accept:
-
        1x10^3
        1×10^-3
     */
@@ -1115,19 +1513,30 @@ function interpretNumberAnswer(input) {
 
 
     /*
-       Accept exact standard notation.
+       Standard notation
     */
 
-    for (let i = 0; i < prefixes.length; i++) {
+    const activePrefixes =
+        getActivePrefixes();
+
+    for (
+        let i = 0;
+        i < activePrefixes.length;
+        i++
+    ) {
 
         const standard =
             exponentToStandard(
-                prefixes[i].exponent
+                activePrefixes[i]
+                    .exponent
             );
 
-        if (answer === standard) {
+        if (
+            answer === standard
+        ) {
 
-            return prefixes[i].exponent;
+            return activePrefixes[i]
+                .exponent;
 
         }
 
@@ -1139,21 +1548,26 @@ function interpretNumberAnswer(input) {
 
 
 /* ==========================================================
-   PREFIX ANSWER CHECKING
+   PREFIX ANSWER
    ========================================================== */
 
-function prefixAnswerIsCorrect(input) {
+function prefixAnswerIsCorrect(
+    input
+) {
 
     const trimmed =
         input.trim();
 
+
     /*
-       Prefix names are case-insensitive.
+       Full names:
+       case-insensitive
     */
 
     if (
         trimmed.toLowerCase() ===
-        currentPrefix.name.toLowerCase()
+        currentPrefix.name
+            .toLowerCase()
     ) {
 
         return true;
@@ -1162,15 +1576,8 @@ function prefixAnswerIsCorrect(input) {
 
 
     /*
-       Symbols ARE case-sensitive.
-
-       This is important because:
-
-       m = milli
-       M = mega
-
-       p = pico
-       P = peta
+       Symbols:
+       case-sensitive
     */
 
     if (
@@ -1184,15 +1591,22 @@ function prefixAnswerIsCorrect(input) {
 
 
     /*
-       Allow Greek mu alternative.
+       Micro alternatives
     */
 
     if (
-        currentPrefix.name === "micro" &&
+        currentPrefix.name ===
+        "micro"
+
+        &&
+
         (
-            trimmed === "μ" ||
-            trimmed === "µ" ||
-            trimmed.toLowerCase() === "u"
+            trimmed === "μ"
+            ||
+            trimmed === "µ"
+            ||
+            trimmed.toLowerCase()
+                === "u"
         )
     ) {
 
@@ -1211,7 +1625,9 @@ function prefixAnswerIsCorrect(input) {
 
 function checkAnswer() {
 
-    if (questionAnswered) {
+    if (
+        questionAnswered
+    ) {
 
         newQuestion();
 
@@ -1220,10 +1636,14 @@ function checkAnswer() {
 
 
     const answerElement =
-        document.getElementById("answer");
+        document.getElementById(
+            "answer"
+        );
 
     const feedback =
-        document.getElementById("feedback");
+        document.getElementById(
+            "feedback"
+        );
 
     const userAnswer =
         answerElement.value;
@@ -1246,10 +1666,6 @@ function checkAnswer() {
     let isCorrect = false;
 
 
-    /*
-       PREFIX → NUMBER
-    */
-
     if (
         currentQuestionType ===
         "prefixToNumber"
@@ -1271,11 +1687,6 @@ function checkAnswer() {
 
     }
 
-
-    /*
-       NUMBER → PREFIX
-    */
-
     else {
 
         isCorrect =
@@ -1289,7 +1700,9 @@ function checkAnswer() {
     attempts++;
 
 
-    if (isCorrect) {
+    if (
+        isCorrect
+    ) {
 
         correct++;
 
@@ -1334,7 +1747,7 @@ function checkAnswer() {
 
 
 /* ==========================================================
-   COMPLETE ANSWER DISPLAY
+   FULL ANSWER
    ========================================================== */
 
 function getCompleteAnswer() {
@@ -1358,7 +1771,9 @@ function getCompleteAnswer() {
         ) +
 
         " = " +
-        addCommas(standard)
+        addCommas(
+            standard
+        )
 
     );
 }
@@ -1370,7 +1785,9 @@ function getCompleteAnswer() {
 
 function skipQuestion() {
 
-    if (questionAnswered) {
+    if (
+        questionAnswered
+    ) {
 
         newQuestion();
 
@@ -1379,7 +1796,9 @@ function skipQuestion() {
 
 
     const feedback =
-        document.getElementById("feedback");
+        document.getElementById(
+            "feedback"
+        );
 
     feedback.className =
         "feedback info";
@@ -1407,7 +1826,7 @@ function skipQuestion() {
 
 
 /* ==========================================================
-   SCOREBOARD
+   SCORE
    ========================================================== */
 
 function updateStats() {
@@ -1430,14 +1849,18 @@ function updateStats() {
 
     let percent = 0;
 
-    if (attempts > 0) {
+    if (
+        attempts > 0
+    ) {
 
         percent =
             Math.round(
-                (correct / attempts) * 100
+                (correct / attempts) *
+                100
             );
 
     }
+
 
     document.getElementById(
         "accuracy"
@@ -1447,16 +1870,22 @@ function updateStats() {
 
 
 /* ==========================================================
-   MISSED PREFIX TRACKING
+   MISSED PREFIXES
    ========================================================== */
 
-function addMissedPrefix(prefix) {
+function addMissedPrefix(
+    prefix
+) {
 
     if (
-        !missedPrefixes[prefix.name]
+        !missedPrefixes[
+            prefix.name
+        ]
     ) {
 
-        missedPrefixes[prefix.name] = {
+        missedPrefixes[
+            prefix.name
+        ] = {
 
             prefix: prefix,
             count: 0
@@ -1465,9 +1894,11 @@ function addMissedPrefix(prefix) {
 
     }
 
+
     missedPrefixes[
         prefix.name
     ].count++;
+
 
     updateMissedList();
 }
@@ -1489,7 +1920,9 @@ function updateMissedList() {
         );
 
 
-    if (entries.length === 0) {
+    if (
+        entries.length === 0
+    ) {
 
         container.innerHTML =
             "<div>No missed prefixes yet!</div>";
@@ -1504,29 +1937,35 @@ function updateMissedList() {
     );
 
 
-    entries.forEach(item => {
+    entries.forEach(
+        item => {
 
-        const div =
-            document.createElement("div");
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-        div.className =
-            "missed-item";
+            div.className =
+                "missed-item";
 
-        div.textContent =
-            item.prefix.name +
-            " (" +
-            item.prefix.symbol +
-            ") — missed " +
-            item.count +
-            (
-                item.count === 1
+            div.textContent =
+                item.prefix.name +
+                " (" +
+                item.prefix.symbol +
+                ") — missed " +
+                item.count +
+                (
+                    item.count === 1
                     ? " time"
                     : " times"
+                );
+
+            container.appendChild(
+                div
             );
 
-        container.appendChild(div);
-
-    });
+        }
+    );
 }
 
 
@@ -1541,42 +1980,68 @@ function buildReferenceTable() {
             "referenceBody"
         );
 
-    prefixes.forEach(prefix => {
+    const title =
+        document.getElementById(
+            "referenceTitle"
+        );
 
-        const row =
-            document.createElement("tr");
+    table.innerHTML = "";
 
-        const standard =
-            exponentToStandard(
-                prefix.exponent
+
+    title.textContent =
+        courseSettings[
+            currentCourse
+        ].name +
+        " SI Prefix Reference";
+
+
+    const activePrefixes =
+        getActivePrefixes();
+
+
+    activePrefixes.forEach(
+        prefix => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+            const standard =
+                exponentToStandard(
+                    prefix.exponent
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${prefix.name}
+                </td>
+
+                <td>
+                    <strong>
+                        ${prefix.symbol}
+                    </strong>
+                </td>
+
+                <td>
+                    10${exponentToSuperscript(prefix.exponent)}
+                </td>
+
+                <td>
+                    ${addCommas(standard)}
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
             );
 
-
-        row.innerHTML = `
-
-            <td>
-                ${prefix.name}
-            </td>
-
-            <td>
-                <strong>
-                    ${prefix.symbol}
-                </strong>
-            </td>
-
-            <td>
-                10${exponentToSuperscript(prefix.exponent)}
-            </td>
-
-            <td>
-                ${addCommas(standard)}
-            </td>
-
-        `;
-
-        table.appendChild(row);
-
-    });
+        }
+    );
 }
 
 
@@ -1592,16 +2057,19 @@ function toggleReference() {
         );
 
     if (
-        section.style.display === "block"
+        section.style.display ===
+        "block"
     ) {
 
-        section.style.display = "none";
+        section.style.display =
+            "none";
 
     }
 
     else {
 
-        section.style.display = "block";
+        section.style.display =
+            "block";
 
     }
 }
@@ -1620,17 +2088,21 @@ function toggleMissed() {
 
     updateMissedList();
 
+
     if (
-        section.style.display === "block"
+        section.style.display ===
+        "block"
     ) {
 
-        section.style.display = "none";
+        section.style.display =
+            "none";
 
     }
 
     else {
 
-        section.style.display = "block";
+        section.style.display =
+            "block";
 
     }
 }
@@ -1649,7 +2121,6 @@ function resetGame() {
     missedPrefixes = {};
 
     updateStats();
-
     updateMissedList();
 
     newQuestion();
@@ -1661,13 +2132,16 @@ function resetGame() {
    ========================================================== */
 
 document
-    .getElementById("answer")
+    .getElementById(
+        "answer"
+    )
     .addEventListener(
         "keydown",
         function(event) {
 
             if (
-                event.key === "Enter"
+                event.key ===
+                "Enter"
             ) {
 
                 checkAnswer();
@@ -1679,6 +2153,20 @@ document
 
 
 /* ==========================================================
+   COURSE TOGGLE EVENT
+   ========================================================== */
+
+document
+    .getElementById(
+        "courseToggle"
+    )
+    .addEventListener(
+        "change",
+        updateCourse
+    );
+
+
+/* ==========================================================
    QUESTION TYPE CHECKBOXES
    ========================================================== */
 
@@ -1686,25 +2174,29 @@ document
     .querySelectorAll(
         '.settings input[type="checkbox"]'
     )
-    .forEach(checkbox => {
+    .forEach(
+        checkbox => {
 
-        checkbox.addEventListener(
-            "change",
-            function() {
+            checkbox.addEventListener(
+                "change",
+                function() {
 
-                getEnabledQuestionTypes();
+                    getEnabledQuestionTypes();
 
-                newQuestion();
+                    newQuestion();
 
-            }
-        );
+                }
+            );
 
-    });
+        }
+    );
 
 
 /* ==========================================================
-   START
+   START GAME
    ========================================================== */
+
+updateCourseDisplay();
 
 buildReferenceTable();
 
