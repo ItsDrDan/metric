@@ -708,7 +708,7 @@ const $ = id => document.getElementById(id);
 const BADGE = n => `https://itsdrdan.github.io/games/brand/badges/${n}.webp`;
 const ico = n => (window.ddIcon ? window.ddIcon(n) : '');
 const STORE = 'ddPrefixPowerUp.v1';
-const badgeImg = (n, alt = '') => `<img src="${n.includes('/') ? n : BADGE(n)}" alt="${alt}" loading="lazy" onerror="this.style.visibility='hidden'">`;
+const badgeImg = (n, alt = '') => `<img src="${n.includes('/') ? n : BADGE(n)}" alt="${alt}"${n.includes('/') ? '' : ' loading="lazy"'} onerror="this.style.visibility='hidden'">`;
 const ACH_ART = id => `assets/achievements/ach-${id}.webp`;
 /* Milli's mood follows the feedback: good → correct, bad → oops, info/hint → thinking, new question → idle; victory for achievements and rank-ups */
 const MILLI_MOOD = { good: 'correct', bad: 'oops', info: 'thinking' }; let milliHold = 0;
